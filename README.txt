@@ -1,5 +1,6 @@
 how to run :
 
+./generate-certs.sh
 docker compose --profile bench build
 docker compose up -d
 docker compose --profile bench run --rm php bash
