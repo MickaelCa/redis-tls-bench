@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  redis-tls:
+    image: redis:7-alpine
+    command: ["/docker-redis-entrypoint.sh"]
+    volumes:
+      - ./tls:/tls
+      - ./docker/redis/entrypoint.sh:/docker-redis-entrypoint.sh:ro
+
+  redis:
+    image: redis:7-alpine
+
+  php:
+    profiles: ['bench']
+    depends_on:
+      - redis
+      - redis-tls
+    build:
+      dockerfile: fpm.Dockerfile
+      context: .
+    volumes:
+      - ./tls:/tls
+      - ./benchmark:/benchmark
