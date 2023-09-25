@@ -6,6 +6,8 @@ WORKDIR /srv/app
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
+COPY --from=composer/composer:2-bin --link /composer /usr/bin/composer
+
 # persistent / runtime deps
 RUN set -eux; \
 	apk add --no-cache \
@@ -15,3 +17,5 @@ RUN set -eux; \
     install-php-extensions \
 		redis \
     ;
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
